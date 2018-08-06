@@ -16,7 +16,7 @@ def init_accounts():
             access_token_secret = data.get(helper.access_token_secret)
             is_main_account = helper.nonNullValue(data.get(helper.is_main_account), False)
 
-            account = Account('Exceen', is_main_account, consumer_key, consumer_secret, access_token, access_token_secret)
+            account = Account(key, is_main_account, consumer_key, consumer_secret, access_token, access_token_secret)
             accounts[key] = account
 
 def get_main_account():
