@@ -1,0 +1,18 @@
+{
+    "main": {
+        "name": "Manfred M.",
+        "consumer_key": "asdf1",
+        "consumer_secret": "asdf2",
+        "access_token": "123-asdf1",
+        "access_token_secret": "123-asdf2",
+        "is_main_account": true
+    },
+
+    "bot1": {
+        "name": "manbot",
+        "consumer_key": "qwer1",
+        "consumer_secret": "qwer2",
+        "access_token": "123-qwer1",
+        "access_token_secret": "123-qwer2"
+    }
+}
