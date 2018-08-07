@@ -3,9 +3,9 @@ from account import Account
 import json
 import os.path
 
-accounts = {}
+_accounts = {}
 
-def init_accounts():
+def __init_accounts():
     global accounts
     global _config
 
@@ -17,10 +17,10 @@ def init_accounts():
                 consumer_secret = data.get(helper.consumer_secret)
                 access_token = data.get(helper.access_token)
                 access_token_secret = data.get(helper.access_token_secret)
-                is_main_account = helper.nonNullValue(data.get(helper.is_main_account), False)
+                is_main_account = data.get(helper.is_main_account) or False
 
-                account = Account(key, is_main_account, consumer_key, consumer_secret, access_token, access_token_secret)
-                accounts[key] = account
+                account = Account(consumer_key, consumer_secret, access_token, access_token_secret, is_main_account)
+                _accounts[key] = account
 
 def get_main_account():
     return __get_account(True)
@@ -28,11 +28,21 @@ def get_main_account():
 def get_secondary_account():
     return __get_account(False)
 
+def get_account(name):
+    return _accounts[name]
+
+def get_available_accounts():
+    return _accounts.keys()
+
 def __get_account(is_main_account):
-    for key in accounts:
-        if accounts[key].is_main_account == is_main_account:
-            return accounts[key]
+    for key, account in _accounts.iteritems():
+        if account.is_main_account == is_main_account:
+            return account
     return None    
 
-init_accounts()
+def get_api(name):
+    return get_account(name).api
+
+
+__init_accounts()
 
