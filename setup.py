@@ -11,7 +11,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'tweepy==1.12',
+        'tweepy>=1.12',
     ],
     packages=find_packages(),
 )
