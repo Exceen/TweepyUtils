@@ -1,23 +1,26 @@
 import helper
 from account import Account
 import json
+import os.path
 
 accounts = {}
 
 def init_accounts():
     global accounts
     global _config
-    with open(helper.config_path, 'r') as f:
-        config = json.load(f)
-        for key, data in config.iteritems():
-            consumer_key = data.get(helper.consumer_key)
-            consumer_secret = data.get(helper.consumer_secret)
-            access_token = data.get(helper.access_token)
-            access_token_secret = data.get(helper.access_token_secret)
-            is_main_account = helper.nonNullValue(data.get(helper.is_main_account), False)
 
-            account = Account(key, is_main_account, consumer_key, consumer_secret, access_token, access_token_secret)
-            accounts[key] = account
+    if os.path.isfile(helper.config_path):
+        with open(helper.config_path, 'r') as f:
+            config = json.load(f)
+            for key, data in config.iteritems():
+                consumer_key = data.get(helper.consumer_key)
+                consumer_secret = data.get(helper.consumer_secret)
+                access_token = data.get(helper.access_token)
+                access_token_secret = data.get(helper.access_token_secret)
+                is_main_account = helper.nonNullValue(data.get(helper.is_main_account), False)
+
+                account = Account(key, is_main_account, consumer_key, consumer_secret, access_token, access_token_secret)
+                accounts[key] = account
 
 def get_main_account():
     return __get_account(True)
@@ -32,3 +35,4 @@ def __get_account(is_main_account):
     return None    
 
 init_accounts()
+
