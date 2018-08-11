@@ -1,0 +1,93 @@
+#!/usr/bin/python
+import tweepy
+from tweepyutils import accounts, constants
+import argparse
+import sys
+
+def main():
+    parser = argparse.ArgumentParser(description='tweepyutils')
+
+    # parser.add_argument('--config-dir', nargs='?', help='config dir')
+
+    # parser.add_argument('add_account', nargs=1, help='add an account to your config file')
+    # parser.add_argument('add_account', metavar='add-account', type=str, nargs='?', help='')
+    parser.add_argument('-a', '--add-account', action='store_true', help='add an account to the config file')
+    parser.add_argument('-r', '--remove-account', action='store_true', help='remove an account from the config file')
+    parser.add_argument('-l', '--list-accounts', action='store_true', help='displays all configured accounts')
+
+    args = parser.parse_args()
+
+    # print args._get_args()
+
+    if args.add_account:
+        add_account()
+    elif args.remove_account:
+        remove_account()
+    elif args.list_accounts:
+        list_accounts()
+    else:
+        parser.print_help(sys.stderr)
+    # elif args.followings:
+        # pass
+
+#### add account functions ####
+
+def add_account():
+    name, account = read_account_from_command_line()
+
+    if not accounts.config_contains_account(name):
+        accounts.add_account_to_config(name, account)
+    else:
+        replace = raw_input('\nAccount already exists, replace? (y/n): ').lower() == 'y'
+        if replace:
+            accounts.add_account_to_config(name, account)
+        else:
+            print 'Account not added.'
+        
+def read_account_from_command_line():
+    name = raw_input('Name: ')
+    consumer_key = raw_input('Consumer Key: ')
+    consumer_secret = raw_input('Consumer Secret: ')
+    access_token = raw_input('Access Token: ')
+    access_token_secret = raw_input('Access Token Secret: ')
+    is_main_account_input = raw_input('Main account? (y/n): ')
+
+    is_main_account = is_main_account_input.lower() == 'y'
+
+    return name, accounts.Account(consumer_key, consumer_secret, access_token, access_token_secret, is_main_account)
+
+#### remove account functions ####
+
+def remove_account():
+    available_account_names = accounts.get_available_account_names()
+
+    if len(available_account_names) > 0:
+        for account_name in available_account_names:
+            print account_name
+        print ''
+        account_to_delete = None
+        while account_to_delete not in available_account_names:
+            account_to_delete = raw_input('Which account do you want to remove? ')
+
+        accounts.remove_account_from_config(account_to_delete)
+    else:
+        print 'No accounts configured.'
+
+#### list accounts functions ####
+
+def list_accounts():
+    left_indent = '\t'
+
+    for account_name in accounts.get_available_account_names():
+        account = accounts.get_account(account_name)
+        print account_name + (' (main account)' if account.is_main_account else '')
+        print left_indent + constants.CONSUMER_KEY + ': ' + account.consumer_key
+        print left_indent + constants.CONSUMER_SECRET + ': ' + account.consumer_secret
+        print left_indent + constants.ACCESS_TOKEN + ': ' + account.access_token
+        print left_indent + constants.ACCESS_TOKEN_SECRET + ': ' + account.access_token_secret
+        print ''
+
+#### ####
+
+if __name__ == '__main__':
+    main()

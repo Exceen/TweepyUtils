@@ -5,15 +5,17 @@ Tweepy Utils
 
 ```
 from tweepyutils import accounts
+from tweepyutils import followings
 ```
 
 ### Accounts ###
 
 ```
+accounts.get_available_account_names()
 accounts.get_account(name)
+
 accounts.get_main_account()
 accounts.get_secondary_account()
-accounts.get_available_accounts()
 ```
 
 ### Retrieving tweepy.API object ###
@@ -27,9 +29,14 @@ api = account.api
 accounts.get_api('Username') # directly retrieves the tweepyAPI-object
 ```
 
+### Followings ###
+
+```TODO```
+
 ### TODO ###
 
 - [x] Store multiple accounts
-- [ ] Manage accounts via an add/remove script
-- [ ] Retrieve various data about followers (new followers, unfollowers, ...)
-
+- [x] Manage accounts via an add/remove script
+- [x] Retrieve various data about followers (new followers, unfollowers, ...)
+- [ ] Update README
+- [ ] Whatever

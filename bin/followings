@@ -1,0 +1,80 @@
+#!/usr/bin/python
+import tweepy
+import tweepyutils
+import argparse
+from os import makedirs, path
+
+def main():
+    parser = argparse.ArgumentParser(description='Followings')
+    parser.add_argument('-d', '--create-db', action='store_true', help='creates a complete database of your followers (ratelimit)')
+    parser.add_argument('user', metavar='username', type=str, nargs='?', help='use the given username instead of yours')
+    parser.add_argument('-s', '--silent', action='store_true', help='ignores print statements')
+    args = parser.parse_args()
+
+    account = None
+    if args.user:
+        account = tweepyutils.accounts.get_account(args.user)
+    else:
+        account = tweepyutils.accounts.get_main_account()
+
+    followings = tweepyutils.followings.Followings(account)
+
+    if args.user and followings.account.get_username() != args.user:
+        followings.account.set_username(args.user)
+    if args.create_db:
+        followings.update_database(followings.account.friends + followings.account.followers)
+        exit()
+
+    ####
+
+    current_friends = followings.account.friends
+    current_followers = followings.account.followers
+    previous_friends = followings.get_friends_from_database()
+    previous_followers = followings.get_followers_from_database()
+
+    unfollowed_friends = list(set(previous_friends) - set(current_friends))
+    new_friends = list(set(current_friends) - set(previous_friends))
+    unfollowers = list(set(previous_followers) - set(current_followers))
+    new_followers = list(set(current_followers) - set(previous_followers))
+
+    ####
+
+    if not args.silent:
+        print '@' + followings.account.api.me().screen_name, '| Following:', len(current_friends), '| Followers:', len(current_followers)
+
+        print '\nUnfollowers(%d):' % len(unfollowers)
+        print '\n'.join([followings.get_username(user_id) for user_id in unfollowers])
+
+        print '\nNew Followers(%d):' % len(new_followers)
+        print '\n'.join([followings.get_username(user_id) for user_id in new_followers])
+
+        print '\nUnfollowed Friends(%d):' % len(unfollowed_friends)
+        print '\n'.join([followings.get_username(user_id) for user_id in unfollowed_friends])
+
+        print '\nNew Friends(%d):' % len(new_friends)
+        print '\n'.join([followings.get_username(user_id) for user_id in new_friends])
+
+        print ''
+
+    api_bot = tweepyutils.accounts.get_secondary_account().api
+
+    notify_via_dm(followings, api_bot, '%s unfollowed you.', unfollowers)
+    notify_via_dm(followings, api_bot, '%s followed you.', new_followers)
+    notify_via_dm(followings, api_bot, 'You unfollowed %s.', unfollowed_friends)
+    notify_via_dm(followings, api_bot, 'You followed %s.', new_friends)
+
+    followings.save_followings()
+
+def notify_via_dm(followings, api, text, account_ids):
+    if len(account_ids) > 0:
+        recipient = followings.account.api.me().screen_name
+        message = text % ', '.join(['@' + followings.get_username(account_id) for account_id in account_ids])
+        message = rreplace(message, ', ', ' and ')
+        response = api.send_direct_message(recipient, text=message)
+    
+def rreplace(s, old, new):
+    split = s.rsplit(old, 1)
+    return new.join(split)
+
+if __name__ == '__main__':
+    main()

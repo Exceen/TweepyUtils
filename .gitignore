@@ -1,6 +1,7 @@
-config.json
-test.py
+dev/
+legacy/
 
+._*
 *.pyc
 *.DS_Store
 *.sublime-project
