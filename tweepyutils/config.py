@@ -1,5 +1,5 @@
 import json
-import os.path
+import os
 import constants
 import accounts
 
@@ -27,7 +27,9 @@ class Config(object):
 
     @property
     def account_config(self):
-        return self.config.get(constants.ACCOUNTS) or {}
+        if constants.ACCOUNTS not in self.config:
+            self.config[constants.ACCOUNTS] = {}
+        return self.config[constants.ACCOUNTS]
 
     @account_config.setter
     def account_config(self, account_config):
@@ -67,6 +69,9 @@ class Config(object):
 
         json_config = {}
         json_config[constants.ACCOUNTS] = json_account_config
+
+        if not os.path.isdir(os.path.dirname(constants.CONFIG_FILE)):
+            os.makedirs(os.path.dirname(constants.CONFIG_FILE))
 
         with open(constants.CONFIG_FILE, 'w') as f:
             json.dump(json_config, f, indent=4, sort_keys=True)
