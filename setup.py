@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='tweepyutils',
-    version='1.0',
+    version='1.1',
     description='Utility extension for Tweepy.',
     author='Exceen',
     author_email='github@exceen.at',
@@ -16,6 +16,7 @@ setup(
     packages=find_packages(),
     scripts=[
         'bin/tweepyutils',
-        'bin/followings'
+        'bin/followings',
+        'bin/tweet'
     ]
 )
