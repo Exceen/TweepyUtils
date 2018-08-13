@@ -21,7 +21,7 @@ class Followings(object):
         for record in db:
             if str(user_id) in record:
                 return record.split('|')[-1]
-        return 'Unkown User'
+        return None
 
     def get_username(self, user_id):
         username = self.get_username_from_database(user_id)
@@ -29,7 +29,7 @@ class Followings(object):
             try:
                 username = self.account.api.get_user(user_id).screen_name
             except Exception, e:
-                pass
+                username = 'Unknown User'
         return username
 
     def get_friends_from_database(self):
