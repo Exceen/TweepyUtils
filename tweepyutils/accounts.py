@@ -103,7 +103,10 @@ class Account(object):
         json_account[constants.CONSUMER_SECRET] = self.consumer_secret
         json_account[constants.ACCESS_TOKEN] = self.access_token
         json_account[constants.ACCESS_TOKEN_SECRET] = self.access_token_secret
-        json_account[constants.IS_MAIN_ACCOUNT] = self.is_main_account
+
+        if self.is_main_account:
+            json_account[constants.IS_MAIN_ACCOUNT] = self.is_main_account
+            
         return json_account
 
 

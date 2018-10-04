@@ -1,3 +1,4 @@
+import tweepy
 from tweepyutils import accounts, constants
 from os import makedirs, path
 
@@ -29,7 +30,7 @@ class Followings(object):
             try:
                 username = self.account.api.get_user(user_id).screen_name
             except Exception, e:
-                username = 'Unknown User'
+                username = 'Unknown User (' + str(user_id) + ')'
         return username
 
     def get_friends_from_database(self):
