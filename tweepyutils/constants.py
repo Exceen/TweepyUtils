@@ -18,5 +18,5 @@ CONSUMER_SECRET = 'consumer_secret'
 ACCESS_TOKEN = 'access_token'
 ACCESS_TOKEN_SECRET = 'access_token_secret'
 IS_MAIN_ACCOUNT = 'is_main_account'
-
+IS_DM_ACCOUNT = 'is_dm_account'
 

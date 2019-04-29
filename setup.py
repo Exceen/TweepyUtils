@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='tweepyutils',
-    version='1.3',
+    version='1.4',
     description='Utility extension for Tweepy.',
     author='Exceen',
     author_email='github@exceen.at',

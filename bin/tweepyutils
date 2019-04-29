@@ -51,10 +51,12 @@ def read_account_from_command_line():
     access_token = raw_input('Access Token: ')
     access_token_secret = raw_input('Access Token Secret: ')
     is_main_account_input = raw_input('Main account? (y/n): ')
+    is_dm_account_input = raw_input('DM account? (y/n): ')
 
     is_main_account = is_main_account_input.lower() == 'y'
+    is_dm_account = is_dm_account_input.lower() == 'y'
 
-    return name, accounts.Account(consumer_key, consumer_secret, access_token, access_token_secret, is_main_account)
+    return name, accounts.Account(consumer_key, consumer_secret, access_token, access_token_secret, is_main_account, is_dm_account)
 
 #### remove account functions ####
 
@@ -80,7 +82,7 @@ def list_accounts():
 
     for account_name in accounts.get_available_account_names():
         account = accounts.get_account(account_name)
-        print account_name + (' (main account)' if account.is_main_account else '')
+        print account_name + (' (main account)' if account.is_main_account else '') + (' (dm account)' if account.is_dm_account else '')
         print left_indent + constants.CONSUMER_KEY + ': ' + account.consumer_key
         print left_indent + constants.CONSUMER_SECRET + ': ' + account.consumer_secret
         print left_indent + constants.ACCESS_TOKEN + ': ' + account.access_token

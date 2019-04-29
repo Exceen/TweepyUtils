@@ -56,12 +56,12 @@ def main():
 
         print ''
 
-    api_bot = tweepyutils.accounts.get_secondary_account().api
+    api_dm = tweepyutils.accounts.get_dm_account().api
 
-    notify_via_dm(followings, api_bot, '%s unfollowed you.', unfollowers)
-    notify_via_dm(followings, api_bot, '%s followed you.', new_followers)
-    notify_via_dm(followings, api_bot, 'You unfollowed %s.', unfollowed_friends)
-    notify_via_dm(followings, api_bot, 'You followed %s.', new_friends)
+    notify_via_dm(followings, api_dm, '%s unfollowed you.', unfollowers)
+    notify_via_dm(followings, api_dm, '%s followed you.', new_followers)
+    notify_via_dm(followings, api_dm, 'You unfollowed %s.', unfollowed_friends)
+    notify_via_dm(followings, api_dm, 'You followed %s.', new_friends)
 
     followings.save_followings()
 

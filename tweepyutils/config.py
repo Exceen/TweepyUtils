@@ -56,8 +56,9 @@ class Config(object):
                     access_token = data.get(constants.ACCESS_TOKEN)
                     access_token_secret = data.get(constants.ACCESS_TOKEN_SECRET)
                     is_main_account = data.get(constants.IS_MAIN_ACCOUNT) or False
+                    is_dm_account = data.get(constants.IS_DM_ACCOUNT) or False
 
-                    account = accounts.Account(consumer_key, consumer_secret, access_token, access_token_secret, is_main_account)
+                    account = accounts.Account(consumer_key, consumer_secret, access_token, access_token_secret, is_main_account, is_dm_account)
                     account_dict[key] = account
 
                 self._config[constants.ACCOUNTS] = account_dict

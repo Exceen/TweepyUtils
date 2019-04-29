@@ -21,6 +21,11 @@ def __get_account(is_main_account):
             return account
     return None   
 
+def get_dm_account():
+    for key, account in constants.config.account_config.iteritems():
+        if account.is_dm_account == True:
+            return account
+    return None
 
 def get_api(name):
     return get_account(name).api
@@ -37,7 +42,7 @@ def remove_account_from_config(key):
     constants.config.save()
 
 class Account(object):
-    def __init__(self, consumer_key, consumer_secret, access_token, access_token_secret, is_main_account=False):
+    def __init__(self, consumer_key, consumer_secret, access_token, access_token_secret, is_main_account=False, is_dm_account=False):
         super(Account, self).__init__()
 
         self.consumer_key = consumer_key
@@ -45,6 +50,7 @@ class Account(object):
         self.access_token = access_token
         self.access_token_secret = access_token_secret
         self.is_main_account = is_main_account
+        self.is_dm_account = is_dm_account
 
         self._api = None
         
@@ -106,6 +112,9 @@ class Account(object):
 
         if self.is_main_account:
             json_account[constants.IS_MAIN_ACCOUNT] = self.is_main_account
+
+        if self.is_dm_account:
+            json_account[constants.IS_DM_ACCOUNT] = self.is_dm_account
             
         return json_account
 
