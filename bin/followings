@@ -56,7 +56,7 @@ def main():
 
         print ''
 
-    api_dm = tweepyutils.accounts.get_dm_account().api
+    api_dm = tweepyutils.accounts.get_dev_account().api
 
     notify_via_dm(followings, api_dm, '%s unfollowed you.', unfollowers)
     notify_via_dm(followings, api_dm, '%s followed you.', new_followers)

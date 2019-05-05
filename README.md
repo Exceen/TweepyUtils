@@ -16,6 +16,7 @@ accounts.get_account(name)
 
 accounts.get_main_account()
 accounts.get_secondary_account()
+accounts.get_dev_account()
 ```
 
 ### Retrieving tweepy.API object ###
