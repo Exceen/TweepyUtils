@@ -13,7 +13,7 @@ setup(
     install_requires=[
         'tweepy>=1.12'
     ],
-    packages=find_packages(),
+    packages=find_packages(include=['bin/*']),
     scripts=[
         'bin/tweepyutils',
         'bin/followings',
