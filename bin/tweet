@@ -17,8 +17,8 @@ def main():
 
     try:
         api.update_status(args.tweet[0])
-        print api.me().name + ": " + args.tweet[0]
-    except Exception, e:
+        print(api.me().name + ": " + args.tweet[0])
+    except Exception as e:
         raise e
 
 if __name__ == '__main__':

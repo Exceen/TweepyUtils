@@ -1,8 +1,8 @@
-import constants
+from . import constants
 import tweepy
 
 def get_available_account_names():
-    return constants.config.account_config.keys()
+    return list(constants.config.account_config.keys())
 
 
 def get_account(name):
@@ -16,13 +16,13 @@ def get_secondary_account():
     return __get_account(False)
 
 def __get_account(is_main_account):
-    for key, account in constants.config.account_config.iteritems():
+    for key, account in constants.config.account_config.items():
         if account.is_main_account == is_main_account:
             return account
     return None   
 
 def get_dev_account():
-    for key, account in constants.config.account_config.iteritems():
+    for key, account in constants.config.account_config.items():
         if account.is_dev_account == True:
             return account
     return None
@@ -77,7 +77,7 @@ class Account(object):
     @property
     def friends(self):
         if self._friends is None:
-            self._friends = [str(friend) for friend in self.api.friends_ids(self.api.me().screen_name)]
+            self._friends = [str(friend) for friend in self.api.get_friend_ids(screen_name=self.api.verify_credentials().screen_name)]
         return self._friends
     
     @friends.setter
@@ -92,7 +92,7 @@ class Account(object):
     @property
     def followers(self):
         if self._followers is None:
-            self._followers = [str(follower) for follower in self.api.followers_ids(self.api.me().screen_name)]
+            self._followers = [str(follower) for follower in self.api.get_follower_ids(screen_name=self.api.verify_credentials().screen_name)]
         return self._followers
     
     @followers.setter

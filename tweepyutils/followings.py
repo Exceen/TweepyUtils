@@ -7,7 +7,7 @@ DATABASE_FILE = path.join(constants.CONFIG_PATH, 'followers.db')
 class Followings(object):
     def __init__(self, account):
         self.account = account
-        self._screen_name = self.account.api.me().screen_name
+        self._screen_name = self.account.api.verify_credentials().screen_name
         
     def __get_friends_file(self):
         return path.join(constants.CONFIG_PATH, self._screen_name + '_friends')
@@ -29,7 +29,7 @@ class Followings(object):
         if username == None:
             try:
                 username = self.account.api.get_user(user_id).screen_name
-            except Exception, e:
+            except Exception as e:
                 username = 'Unknown User (' + str(user_id) + ')'
         return username
 
@@ -55,9 +55,9 @@ class Followings(object):
             user_id = str(user_id)
             if not any(user_id in data for data in db):
                 try:
-                    data_set = user_id + '|' + str(self.account.api.get_user(user_id).screen_name)
+                    data_set = user_id + '|' + str(self.account.api.get_user(user_id=user_id).screen_name)
                     db.append(data_set)
-                except tweepy.error.TweepError, err:
+                except tweepy.error.TweepError as err:
                     continue
 
         with open(DATABASE_FILE, 'w') as f:

@@ -1,7 +1,7 @@
 import json
 import os
-import constants
-import accounts
+from . import constants
+from . import accounts
 
 class Config(object):
     def __init__(self, config_file):
@@ -50,7 +50,7 @@ class Config(object):
                 account_config = json_config.get(constants.ACCOUNTS) or {}
 
                 account_dict = {}
-                for key, data in account_config.iteritems():
+                for key, data in account_config.items():
                     consumer_key = data.get(constants.CONSUMER_KEY)
                     consumer_secret = data.get(constants.CONSUMER_SECRET)
                     access_token = data.get(constants.ACCESS_TOKEN)

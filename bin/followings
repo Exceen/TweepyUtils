@@ -40,21 +40,21 @@ def main():
     ####
 
     if not args.silent:
-        print '@' + followings.account.api.me().screen_name, '| Following:', len(current_friends), '| Followers:', len(current_followers)
+        print('@' + followings.account.api.verify_credentials().screen_name, '| Following:', len(current_friends), '| Followers:', len(current_followers))
 
-        print '\nUnfollowers(%d):' % len(unfollowers)
-        print '\n'.join([followings.get_username(user_id) for user_id in unfollowers])
+        print('\nUnfollowers(%d):' % len(unfollowers))
+        print('\n'.join([followings.get_username(user_id) for user_id in unfollowers]))
 
-        print '\nNew Followers(%d):' % len(new_followers)
-        print '\n'.join([followings.get_username(user_id) for user_id in new_followers])
+        print('\nNew Followers(%d):' % len(new_followers))
+        print('\n'.join([followings.get_username(user_id) for user_id in new_followers]))
 
-        print '\nUnfollowed Friends(%d):' % len(unfollowed_friends)
-        print '\n'.join([followings.get_username(user_id) for user_id in unfollowed_friends])
+        print('\nUnfollowed Friends(%d):' % len(unfollowed_friends))
+        print('\n'.join([followings.get_username(user_id) for user_id in unfollowed_friends]))
 
-        print '\nNew Friends(%d):' % len(new_friends)
-        print '\n'.join([followings.get_username(user_id) for user_id in new_friends])
+        print('\nNew Friends(%d):' % len(new_friends))
+        print('\n'.join([followings.get_username(user_id) for user_id in new_friends]))
 
-        print ''
+        print('')
 
     api_dm = tweepyutils.accounts.get_dev_account().api
 
@@ -67,10 +67,10 @@ def main():
 
 def notify_via_dm(followings, api, text, account_ids):
     if len(account_ids) > 0:
-        recipient = followings.account.api.me().screen_name
+        recipient_id = followings.account.api.verify_credentials().id
         message = text % ', '.join(['@' + followings.get_username(account_id) for account_id in account_ids])
         message = rreplace(message, ', ', ' and ')
-        response = api.send_direct_message(recipient, text=message)
+        response = api.send_direct_message(recipient_id, text=message)
     
 def rreplace(s, old, new):
     split = s.rsplit(old, 1)

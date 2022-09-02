@@ -1,6 +1,6 @@
 from pkg_resources import Requirement, resource_filename
 import os.path
-import config
+from . import config
 
 #### ADDITIONAL FILES ####
 

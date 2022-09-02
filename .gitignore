@@ -1,6 +1,8 @@
 dev/
 legacy/
+tweepyutils-data/
 
+*.egg-info
 ._*
 *.pyc
 *.DS_Store

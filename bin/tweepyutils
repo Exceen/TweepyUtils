@@ -38,20 +38,20 @@ def add_account():
     if not accounts.config_contains_account(name):
         accounts.add_account_to_config(name, account)
     else:
-        replace = raw_input('\nAccount already exists, replace? (y/n): ').lower() == 'y'
+        replace = input('\nAccount already exists, replace? (y/n): ').lower() == 'y'
         if replace:
             accounts.add_account_to_config(name, account)
         else:
-            print 'Account not added.'
+            print('Account not added.')
         
 def read_account_from_command_line():
-    name = raw_input('Name: ')
-    consumer_key = raw_input('Consumer Key: ')
-    consumer_secret = raw_input('Consumer Secret: ')
-    access_token = raw_input('Access Token: ')
-    access_token_secret = raw_input('Access Token Secret: ')
-    is_main_account_input = raw_input('Main account? (y/n): ')
-    is_dev_account_input = raw_input('Dev account? (y/n): ')
+    name = input('Name: ')
+    consumer_key = input('Consumer Key: ')
+    consumer_secret = input('Consumer Secret: ')
+    access_token = input('Access Token: ')
+    access_token_secret = input('Access Token Secret: ')
+    is_main_account_input = input('Main account? (y/n): ')
+    is_dev_account_input = input('Dev account? (y/n): ')
 
     is_main_account = is_main_account_input.lower() == 'y'
     is_dev_account = is_dev_account_input.lower() == 'y'
@@ -65,15 +65,15 @@ def remove_account():
 
     if len(available_account_names) > 0:
         for account_name in available_account_names:
-            print account_name
-        print ''
+            print(account_name)
+        print('')
         account_to_delete = None
         while account_to_delete not in available_account_names:
-            account_to_delete = raw_input('Which account do you want to remove? ')
+            account_to_delete = input('Which account do you want to remove? ')
 
         accounts.remove_account_from_config(account_to_delete)
     else:
-        print 'No accounts configured.'
+        print('No accounts configured.')
 
 #### list accounts functions ####
 
@@ -82,12 +82,12 @@ def list_accounts():
 
     for account_name in accounts.get_available_account_names():
         account = accounts.get_account(account_name)
-        print account_name + (' (main account)' if account.is_main_account else '') + (' (dev account)' if account.is_dev_account else '')
-        print left_indent + constants.CONSUMER_KEY + ': ' + account.consumer_key
-        print left_indent + constants.CONSUMER_SECRET + ': ' + account.consumer_secret
-        print left_indent + constants.ACCESS_TOKEN + ': ' + account.access_token
-        print left_indent + constants.ACCESS_TOKEN_SECRET + ': ' + account.access_token_secret
-        print ''
+        print(account_name + (' (main account)' if account.is_main_account else '') + (' (dev account)' if account.is_dev_account else ''))
+        print(left_indent + constants.CONSUMER_KEY + ': ' + account.consumer_key)
+        print(left_indent + constants.CONSUMER_SECRET + ': ' + account.consumer_secret)
+        print(left_indent + constants.ACCESS_TOKEN + ': ' + account.access_token)
+        print(left_indent + constants.ACCESS_TOKEN_SECRET + ': ' + account.access_token_secret)
+        print('')
 
 #### ####
 
